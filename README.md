@@ -1,7 +1,4 @@
 # Meditopia
-
-A MAP project.
-
 ## Getting Started
  
 Run this command:
