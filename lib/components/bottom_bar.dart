@@ -16,9 +16,9 @@ class _BottomBarState extends State<BottomBar> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    Text('Index 1: Business'),
-    Text('Index 2: School'),
-    Text('Index 3: School'),
+    Text('Index 1: Schedule'),
+    Text('Index 2: Community'),
+    Text('Index 3: Notification'),
   ];
 
   void _onItemTapped(int index) {
@@ -46,19 +46,19 @@ class _BottomBarState extends State<BottomBar> {
           ),
           BottomNavigationBarItem(
             activeIcon: SvgPicture.asset(
-              AppStyle.eventIcon,
-              color: AppStyle.primarySwatch,
-            ),
-            icon: SvgPicture.asset(AppStyle.eventIcon),
-            label: 'Schedule',
-          ),
-          BottomNavigationBarItem(
-            activeIcon: SvgPicture.asset(
               AppStyle.reportIcon,
               color: AppStyle.primarySwatch,
             ),
             icon: SvgPicture.asset(AppStyle.reportIcon),
-            label: 'Report',
+            label: 'Community',
+          ),
+          BottomNavigationBarItem(
+            activeIcon: SvgPicture.asset(
+              AppStyle.profileIcon,
+              color: AppStyle.primarySwatch,
+            ),
+            icon: SvgPicture.asset(AppStyle.profileIcon),
+            label: 'Profile',
           ),
           BottomNavigationBarItem(
             activeIcon: SvgPicture.asset(

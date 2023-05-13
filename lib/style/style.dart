@@ -12,7 +12,7 @@ class AppStyle {
 
   // Bottom Bar icons
   static const String homeIcon = "assets/icons/home.svg";
-  static const String eventIcon = "assets/icons/event_note.svg";
+  static const String profileIcon = "assets/icons/profile.svg";
   static const String reportIcon = "assets/icons/report.svg";
   static const String notificationsIcon = "assets/icons/notifications.svg";
 
