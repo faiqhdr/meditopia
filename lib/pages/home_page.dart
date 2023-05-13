@@ -27,6 +27,7 @@ class HomePage extends StatelessWidget {
                 // SearchMedical Area.
                 SearchMedical(),
                 // Services Area .
+                Services(),
               ],
             ),
           ),
@@ -45,7 +46,7 @@ class UserInfo extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       title: const Padding(
-        padding: EdgeInsets.only(bottom: 7),
+        padding: EdgeInsets.only(bottom: 5),
         child: Text("👋 Hello!"),
       ),
       subtitle: Text(
@@ -108,7 +109,7 @@ class SearchMedical extends StatelessWidget {
             onPressed: () {},
             child: SvgPicture.asset(AppStyle.filterIcon),
           ),
-          hintText: "Search..",
+          hintText: "Search...",
           fillColor: AppStyle.inputFillColor,
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
@@ -116,6 +117,49 @@ class SearchMedical extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class Services extends StatelessWidget {
+  const Services({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          "Services",
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .copyWith(fontWeight: FontWeight.w700, letterSpacing: 1),
+        ),
+        const SizedBox(height: 12),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: servicesList
+              .map(
+                (e) => CupertinoButton(
+                  onPressed: () {},
+                  padding: EdgeInsets.zero,
+                  child: Container(
+                    width: SizeConfig.blockSizeHorizontal! * 50,
+                    height: SizeConfig.blockSizeHorizontal! * 50,
+                    decoration: BoxDecoration(
+                      color: e.color,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Center(
+                      child: SvgPicture.asset(e.image),
+                    ),
+                  ),
+                ),
+              )
+              .toList(),
+        ),
+      ],
     );
   }
 }
