@@ -41,21 +41,32 @@ class HomePage extends StatelessWidget {
 }
 
 class UserInfo extends StatelessWidget {
-  const UserInfo({super.key});
+  const UserInfo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.only(
+        top: SizeConfig.blockSizeVertical! * 3,
+        bottom: 16.0,
+      ),
       title: const Padding(
-        padding: EdgeInsets.only(bottom: 5),
+        padding: EdgeInsets.only(
+          bottom: 7,
+          top: 7,
+        ),
         child: Text("👋 Hello!"),
       ),
-      subtitle: Text(
-        "Master Oogway",
-        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-              fontWeight: FontWeight.w700,
-            ),
+      subtitle: Padding(
+        padding: EdgeInsets.only(
+          bottom: SizeConfig.blockSizeVertical! * 0,
+        ),
+        child: Text(
+          "Master Oogway",
+          style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+        ),
       ),
       trailing: Container(
         height: 48,
@@ -124,19 +135,24 @@ class SearchMedical extends StatelessWidget {
 }
 
 class Services extends StatelessWidget {
-  const Services({super.key});
+  const Services({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          "Services",
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium!
-              .copyWith(fontWeight: FontWeight.w700, letterSpacing: 1),
+        Padding(
+          padding: EdgeInsets.only(
+            top: SizeConfig.blockSizeVertical! * 5,
+          ),
+          child: Text(
+            "Services",
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1,
+                ),
+          ),
         ),
         const SizedBox(height: 12),
         Row(
@@ -173,8 +189,9 @@ class Advertisement extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Padding(
-      padding:
-          EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical! * 7),
+      padding: EdgeInsets.symmetric(
+        vertical: SizeConfig.blockSizeVertical! * 7,
+      ),
       child: Stack(
         alignment: Alignment.bottomRight,
         children: [
@@ -190,8 +207,7 @@ class Advertisement extends StatelessWidget {
                   flex: 1,
                   child: Padding(
                     padding: EdgeInsets.only(
-                      left: SizeConfig.blockSizeHorizontal! * 17,
-                    ),
+                        left: SizeConfig.blockSizeHorizontal! * 17),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
