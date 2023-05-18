@@ -28,6 +28,8 @@ class HomePage extends StatelessWidget {
                 SearchMedical(),
                 // Services Area .
                 Services(),
+                // Advertisement
+                Advertisement(),
               ],
             ),
           ),
@@ -145,8 +147,8 @@ class Services extends StatelessWidget {
                   onPressed: () {},
                   padding: EdgeInsets.zero,
                   child: Container(
-                    width: SizeConfig.blockSizeHorizontal! * 50,
-                    height: SizeConfig.blockSizeHorizontal! * 50,
+                    width: SizeConfig.blockSizeHorizontal! * 80,
+                    height: SizeConfig.blockSizeVertical! * 40,
                     decoration: BoxDecoration(
                       color: e.color,
                       borderRadius: BorderRadius.circular(25),
@@ -160,6 +162,79 @@ class Services extends StatelessWidget {
               .toList(),
         ),
       ],
+    );
+  }
+}
+
+class Advertisement extends StatelessWidget {
+  const Advertisement({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    return Padding(
+      padding:
+          EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical! * 7),
+      child: Stack(
+        alignment: Alignment.bottomRight,
+        children: [
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: const Color(0xffDCEDF9),
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeHorizontal! * 17,
+                    ),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Get the Best\nMedical Service",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 1,
+                                ),
+                          ),
+                          SizedBox(height: SizeConfig.blockSizeVertical! * 4),
+                          Text(
+                            "Get the Best\nMedical Service",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 1,
+                                  fontSize: 11,
+                                  height: 1.5,
+                                ),
+                          ),
+                        ]),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        top: SizeConfig.blockSizeVertical! * 8,
+                        right: SizeConfig.blockSizeHorizontal! * 10),
+                    child: Image.asset(AppStyle.image1),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

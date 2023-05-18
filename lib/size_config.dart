@@ -11,7 +11,7 @@ class SizeConfig {
     _mediaQueryData = MediaQuery.of(context);
     screenWidth = _mediaQueryData!.size.width;
     screenHeight = _mediaQueryData!.size.height;
-    blockSizeHorizontal = screenWidth! / 400;
-    blockSizeHorizontal = screenHeight! / 400;
+    blockSizeHorizontal = screenWidth! / 300;
+    blockSizeVertical = screenHeight! / 300;
   }
 }

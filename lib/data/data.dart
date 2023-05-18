@@ -51,14 +51,14 @@ List<Appointments> upcomingAppointmentsList = [
   Appointments(
     date: "12\nTue",
     time: DateFormat('hh:mm a').format(DateTime.now()),
-    title: "Dr. Mim Akhter",
+    title: "Dr. Kim Sabu",
     subTitle: "Depression",
     color: const Color(0xff1C6BA4),
   ),
   Appointments(
     date: "12\nTue",
     time: DateFormat('hh:mm a').format(DateTime.now()),
-    title: "Dr. Mim Akhter",
+    title: "Dr. Kim Sabu",
     subTitle: "Depression",
     color: const Color(0xff1C6BA4),
   ),
