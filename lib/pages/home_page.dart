@@ -208,7 +208,7 @@ class Advertisement extends StatelessWidget {
                           ),
                           SizedBox(height: SizeConfig.blockSizeVertical! * 4),
                           Text(
-                            "Get the Best\nMedical Service",
+                            "강동주 - 돌담병원\nDoldam Hospital",
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge!
