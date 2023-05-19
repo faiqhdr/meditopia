@@ -18,22 +18,23 @@ class HomePage extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: SizeConfig.blockSizeHorizontal! * 13,
+              horizontal: SizeConfig.blockSizeHorizontal! * 17,
             ),
             child: Column(
               children: const [
-                // User Info Area .
+                // User Info Area.
                 UserInfo(),
                 // SearchMedical Area.
                 SearchMedical(),
-                // Services Area .
+                // Services Area.
                 Services(),
-                // Advertisement
+                // Advertisement.
                 Advertisement(),
               ],
             ),
           ),
-          // Upcoming Appointments
+          //Upcoming Appointments.
+          UpcomingAppointments(),
         ],
       ),
     );
@@ -144,7 +145,7 @@ class Services extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(
-            top: SizeConfig.blockSizeVertical! * 5,
+            top: SizeConfig.blockSizeVertical! * 7,
           ),
           child: Text(
             "Services",
@@ -251,6 +252,62 @@ class Advertisement extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class UpcomingAppointments extends StatelessWidget {
+  const UpcomingAppointments({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: SizeConfig.blockSizeHorizontal! * 17),
+          child: Text(
+            "Upcoming Appointments",
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium!
+                .copyWith(fontWeight: FontWeight.w700, letterSpacing: 1),
+          ),
+        ),
+        const SizedBox(height: 12),
+        SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 2.0,
+                bottom: 2.0,
+                right: 20.0,
+                left: 9.0,
+              ),
+              child: Row(
+                children: upcomingAppointmentsList
+                    .map(
+                      (e) => CupertinoButton(
+                        padding: const EdgeInsets.only(
+                          left: 14,
+                        ),
+                        child: Container(
+                          height: SizeConfig.blockSizeVertical! * 50,
+                          width: SizeConfig.blockSizeHorizontal! * 200,
+                          decoration: BoxDecoration(
+                            color: e.color,
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                        ),
+                        onPressed: () {},
+                      ),
+                    )
+                    .toList(),
+              ),
+            ))
+      ],
     );
   }
 }
