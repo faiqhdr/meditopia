@@ -56,10 +56,10 @@ List<Appointments> upcomingAppointmentsList = [
     color: const Color(0xff1C6BA4),
   ),
   Appointments(
-    date: "12\nTue",
+    date: "16\nSat",
     time: DateFormat('hh:mm a').format(DateTime.now()),
-    title: "Dr. Kim Sabu",
-    subTitle: "Depression",
+    title: "Dr. Cha Eun Jae",
+    subTitle: "Cardiology",
     color: const Color(0xff1C6BA4),
   ),
 ];

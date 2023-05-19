@@ -290,18 +290,83 @@ class UpcomingAppointments extends StatelessWidget {
                 children: upcomingAppointmentsList
                     .map(
                       (e) => CupertinoButton(
+                        onPressed: () {},
                         padding: const EdgeInsets.only(
                           left: 14,
                         ),
                         child: Container(
                           height: SizeConfig.blockSizeVertical! * 50,
-                          width: SizeConfig.blockSizeHorizontal! * 200,
+                          width: SizeConfig.blockSizeHorizontal! * 220,
                           decoration: BoxDecoration(
                             color: e.color,
                             borderRadius: BorderRadius.circular(20.0),
                           ),
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.all(20),
+                                width: 71.46,
+                                height: 93.03,
+                                decoration: BoxDecoration(
+                                  color: Colors.white12,
+                                  borderRadius: BorderRadius.circular(17.0),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    e.date,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    e.time,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          letterSpacing: 1,
+                                          color: Colors.white,
+                                        ),
+                                  ),
+                                  Text(
+                                    e.title,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(
+                                          letterSpacing: 1,
+                                          fontWeight: FontWeight.bold,
+                                          height: 1.5,
+                                          color: Colors.white,
+                                        ),
+                                  ),
+                                  Text(
+                                    e.subTitle,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          letterSpacing: 1,
+                                          fontWeight: FontWeight.bold,
+                                          height: 1.5,
+                                          color: Colors.white60,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        onPressed: () {},
                       ),
                     )
                     .toList(),
