@@ -15,6 +15,7 @@ class AppStyle {
   static const String profileIcon = "assets/icons/profile.svg";
   static const String reportIcon = "assets/icons/report.svg";
   static const String notificationsIcon = "assets/icons/notifications.svg";
+  static const String dotsIcon = "assets/icons/dots-icon.svg";
 
 // App Colors
   static const primarySwatch = Color(0xff1C6BA4);

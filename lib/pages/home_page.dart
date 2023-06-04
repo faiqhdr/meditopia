@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
           //Upcoming Appointments.
-          UpcomingAppointments(),
+          const UpcomingAppointments(),
         ],
       ),
     );
