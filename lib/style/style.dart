@@ -21,12 +21,11 @@ class AppStyle {
   static const String checkListIcon = "assets/icons/noun-medical-test.svg";
   static const String bmiIcon = "assets/icons/bmi-Icon.svg";
 
-// App Colors
+  // App Colors
   static const primarySwatch = Color(0xff1C6BA4);
   static const inputFillColor = Color(0xffEEF6FC);
 
   // App Theme Data..
-
   static ThemeData? theme = ThemeData(
     textTheme: GoogleFonts.nunitoSansTextTheme().apply(
       bodyColor: const Color(0xff0E1012),
