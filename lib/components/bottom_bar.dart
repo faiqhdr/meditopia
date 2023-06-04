@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../pages/home_page.dart';
+import '../pages/forum_page.dart';
 import '../style/style.dart';
 
 class BottomBar extends StatefulWidget {
@@ -16,8 +17,8 @@ class _BottomBarState extends State<BottomBar> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
+    ForumPage(),
     Text('Index 1: Schedule'),
-    Text('Index 2: Community'),
     Text('Index 3: Notification'),
   ];
 
@@ -50,7 +51,7 @@ class _BottomBarState extends State<BottomBar> {
               color: AppStyle.primarySwatch,
             ),
             icon: SvgPicture.asset(AppStyle.reportIcon),
-            label: 'Community',
+            label: 'Forum',
           ),
           BottomNavigationBarItem(
             activeIcon: SvgPicture.asset(
