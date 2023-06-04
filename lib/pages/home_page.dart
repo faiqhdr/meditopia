@@ -7,6 +7,7 @@ import '../data/data.dart';
 import '../size_config.dart';
 import '../style/style.dart';
 import '../pages/schedule/doctor_list.dart';
+import '../pages/stress_checker/step_1.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

@@ -18,6 +18,8 @@ class AppStyle {
   static const String dotsIcon = "assets/icons/dots-icon.svg";
   static const String messageIcon = "assets/icons/message-icon.svg";
   static const String doctorIcon = "assets/icons/doctor-Icon.svg";
+  static const String checkListIcon = "assets/icons/noun-medical-test.svg";
+  static const String bmiIcon = "assets/icons/bmi-Icon.svg";
 
 // App Colors
   static const primarySwatch = Color(0xff1C6BA4);

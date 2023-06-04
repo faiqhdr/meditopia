@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:meditopia/pages/bmi/view.dart';
 import '../pages/schedule/doctor_list.dart';
+import '../pages/stress_checker/step_1.dart';
 
 class ServiceItem {
   final String image;
@@ -23,10 +25,12 @@ List<ServiceItem> servicesList = [
   ServiceItem(
     image: 'assets/icons/noun-medical-test.svg',
     color: const Color(0xffFAF0DB),
+    route: const StressLevelChecker(),
   ),
   ServiceItem(
     image: 'assets/icons/bmi-Icon.svg',
     color: const Color(0xffF2E3E9),
+    route: const BmiCalculator(),
   ),
 ];
 
