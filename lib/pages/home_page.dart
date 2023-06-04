@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import '../data/data.dart';
 import '../size_config.dart';
 import '../style/style.dart';
+import '../pages/schedule/doctor_list.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -149,7 +150,7 @@ class Services extends StatelessWidget {
           ),
           child: Text(
             "Services",
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            style: Theme.of(context).textTheme.headline6!.copyWith(
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1,
                 ),
@@ -161,7 +162,14 @@ class Services extends StatelessWidget {
           children: servicesList
               .map(
                 (e) => CupertinoButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (e.route != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => e.route!),
+                      );
+                    }
+                  },
                   padding: EdgeInsets.zero,
                   child: Container(
                     width: SizeConfig.blockSizeHorizontal! * 80,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meditopia/pages/notification_page.dart';
-
+import 'package:meditopia/pages/profile/view.dart';
 import '../pages/home_page.dart';
-import '../pages/forum_page.dart';
+import '../pages/forum/view.dart';
 import '../style/style.dart';
 
 class BottomBar extends StatefulWidget {
@@ -19,7 +19,7 @@ class _BottomBarState extends State<BottomBar> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     ForumPage(),
-    Text('Index 1: Schedule'),
+    ProfilePage(),
     NotificationPage(),
   ];
 

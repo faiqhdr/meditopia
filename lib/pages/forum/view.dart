@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
-import '../data/data.dart';
-import '../size_config.dart';
-import '../style/style.dart';
+import '../../data/data.dart';
+import '../../size_config.dart';
+import '../../style/style.dart';
 
 class ForumPage extends StatelessWidget {
   const ForumPage({Key? key}) : super(key: key);

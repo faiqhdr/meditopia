@@ -1,61 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../pages/schedule/doctor_list.dart';
 
-class Services {
+class ServiceItem {
   final String image;
   final Color color;
-  Services({
+  final Widget? route;
+
+  ServiceItem({
     required this.image,
     required this.color,
+    this.route,
   });
 }
 
-// Services List OF DATA
-
-List<Services> servicesList = [
-  Services(
+List<ServiceItem> servicesList = [
+  ServiceItem(
     image: 'assets/icons/doctor-Icon.svg',
     color: const Color(0xffDCEDF9),
+    route: const DoctorList(),
   ),
-  Services(
+  ServiceItem(
     image: 'assets/icons/noun-medical-test.svg',
     color: const Color(0xffFAF0DB),
   ),
-  Services(
+  ServiceItem(
     image: 'assets/icons/bmi-Icon.svg',
     color: const Color(0xffF2E3E9),
   ),
 ];
 
-/// Upcoming Appointments
-
-class Appointments {
+class AppointmentItem {
   final String date;
   final String time;
   final String title;
   final String subTitle;
   final Color color;
 
-  Appointments({
-    required this.color,
+  AppointmentItem({
     required this.date,
     required this.time,
     required this.title,
     required this.subTitle,
+    required this.color,
   });
 }
 
-// Upcoming Appointments List OF DATA
-
-List<Appointments> upcomingAppointmentsList = [
-  Appointments(
+List<AppointmentItem> upcomingAppointmentsList = [
+  AppointmentItem(
     date: "12\nTue",
     time: DateFormat('hh:mm a').format(DateTime.now()),
     title: "Dr. Kim Sabu",
     subTitle: "Depression",
     color: const Color(0xff1C6BA4),
   ),
-  Appointments(
+  AppointmentItem(
     date: "16\nSat",
     time: DateFormat('hh:mm a').format(DateTime.now()),
     title: "Dr. Cha Eun Jae",
