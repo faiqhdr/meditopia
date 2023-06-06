@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meditopia/pages/notification_page.dart';
+import 'result.dart';
 import '../../data/data.dart';
 import '../../size_config.dart';
 import '../../style/style.dart';
@@ -291,7 +292,13 @@ class CalculateButton extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(left: 1, right: 1),
       child: TextButton(
-        onPressed: () {},
+        onPressed: () {
+          // Navigate to BmiResult screen
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => BmiResult()),
+          );
+        },
         style: TextButton.styleFrom(padding: EdgeInsets.zero),
         child: Container(
           width: double.infinity,
