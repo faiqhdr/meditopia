@@ -238,7 +238,7 @@ class BmiStatus extends StatelessWidget {
                   ),
                   children: [
                     TextSpan(
-                      text: 'Weight (cm) ',
+                      text: 'Weight (kg) ',
                     ),
                     TextSpan(
                       text: '60',
