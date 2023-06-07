@@ -115,8 +115,8 @@ class Gender extends StatelessWidget {
                           child: SizedBox(
                             width: 56,
                             height: 56,
-                            child: Image.network(
-                              'https://cdn3.iconfinder.com/data/icons/avatars-flat/33/man_5-1024.png',
+                            child: Image.asset(
+                              AppStyle.maleIcon,
                               width: 56,
                               height: 56,
                             ),
@@ -303,8 +303,8 @@ class BmiStatus extends StatelessWidget {
                       child: SizedBox(
                         width: 54,
                         height: 54,
-                        child: Image.network(
-                          'https://cdn4.iconfinder.com/data/icons/eldorado-symbols/40/shape_ellipse-512.png',
+                        child: Image.asset(
+                          AppStyle.ellipseShape,
                           width: 54,
                           height: 54,
                         ),
@@ -318,8 +318,8 @@ class BmiStatus extends StatelessWidget {
                       child: SizedBox(
                         width: 35,
                         height: 33,
-                        child: Image.network(
-                          'https://cdn4.iconfinder.com/data/icons/eldorado-symbols/40/shape_ellipse-512.png',
+                        child: Image.asset(
+                          AppStyle.ellipseShape,
                           width: 35,
                           height: 33,
                         ),
@@ -333,8 +333,8 @@ class BmiStatus extends StatelessWidget {
                       child: SizedBox(
                         width: 9,
                         height: 10,
-                        child: Image.network(
-                          'https://cdn2.iconfinder.com/data/icons/bullet-points-1/64/Bulletpoint_Bullet_Listicon_Shape_Bulletfont_Glyph_Typography_Bullet_Point_Customshape_Wingding_Custom_Triangle_Decoretive_Up-512.png',
+                        child: Image.asset(
+                          AppStyle.triangleShape,
                           width: 9,
                           height: 10,
                         ),

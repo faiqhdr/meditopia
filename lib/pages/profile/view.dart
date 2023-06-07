@@ -53,8 +53,8 @@ class UserInfo extends StatelessWidget {
               height: 120,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(34.6666660309),
-                child: Image.network(
-                  'https://yt3.ggpht.com/a/AATXAJxKrHFgZo3CFNzJHJRCfVUfuVaoyVAhIzs-Qg=s900-c-k-c0xffffffff-no-rj-mo',
+                child: Image.asset(
+                  AppStyle.oogwayProfile,
                   fit: BoxFit.cover,
                 ),
               ),

@@ -5,6 +5,12 @@ class AppStyle {
   // App Images ..
   static const String profile = "assets/images/profile.jpg";
   static const String image1 = "assets/images/image1.png";
+  static const String maleIcon = "assets/images/male.png";
+  static const String femaleIcon = "assets/images/female.png";
+  static const String ellipseShape = "assets/images/ellipse.png";
+  static const String hanHyoJoo = "assets/images/hanhyojoo.jpg";
+  static const String oogwayProfile = "assets/images/oogway.jpg";
+  static const String triangleShape = "assets/images/triangle.png";
 
   /// App Icons.
   static const String filterIcon = "assets/icons/adjust-horizontal-alt.svg";

@@ -117,8 +117,8 @@ class Gender extends StatelessWidget {
                         child: SizedBox(
                           width: 56,
                           height: 56,
-                          child: Image.network(
-                            'https://cdn3.iconfinder.com/data/icons/avatars-flat/33/man_5-1024.png',
+                          child: Image.asset(
+                            AppStyle.maleIcon,
                             width: 56,
                             height: 56,
                           ),
@@ -168,8 +168,8 @@ class Gender extends StatelessWidget {
                       child: SizedBox(
                         width: 62,
                         height: 62,
-                        child: Image.network(
-                          'https://cdn1.iconfinder.com/data/icons/website-internet/48/website_-_female_business-512.png',
+                        child: Image.asset(
+                          AppStyle.femaleIcon,
                           width: 62,
                           height: 62,
                         ),

@@ -254,8 +254,8 @@ class Doctor extends StatelessWidget {
                   height: 57.67,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      'https://th.bing.com/th/id/R.a428c05967da1287d99bfb46345b6f8b?rik=w3RejeluKxgPWw&riu=http%3a%2f%2fcaptionsnation.com%2fwp-content%2fuploads%2f2021%2f05%2fHan-Hyo-joo-Net-WorthWikiFactsCareerAgeBoyfriendBiography.jpg&ehk=cPquiR1C%2bYwemO2m2sSN44fpt9iDd4%2fzNb5EeKIzCi8%3d&risl=&pid=ImgRaw&r=0',
+                    child: Image.asset(
+                      AppStyle.hanHyoJoo,
                       fit: BoxFit.cover,
                     ),
                   ),
