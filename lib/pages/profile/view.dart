@@ -75,7 +75,7 @@ class UserInfo extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(bottom: 39),
               child: const Text(
-                'UID 202331313101',
+                'oogway@gmail.com',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 17,

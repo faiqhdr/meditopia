@@ -11,6 +11,8 @@ class AppStyle {
   static const String hanHyoJoo = "assets/images/hanhyojoo.jpg";
   static const String oogwayProfile = "assets/images/oogway.jpg";
   static const String triangleShape = "assets/images/triangle.png";
+  static const String appLogo = "assets/images/meditopia_app_logo.png";
+  static const String appFullLogo = "assets/images/meditopia_logo.png";
 
   /// App Icons.
   static const String filterIcon = "assets/icons/adjust-horizontal-alt.svg";
