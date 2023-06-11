@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "115028851403",
+    "project_id": "meditopia-9abd1",
+    "storage_bucket": "meditopia-9abd1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115028851403:android:cb5ce3ab54bc57c90c394e",
+        "android_client_info": {
+          "package_name": "com.example.meditopia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115028851403-tv3c652c07rf9p4qg7eo6lajvmt4d09r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnaJKd13CRZhSN0Jk08i3YQaVCj0cLWG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115028851403-tv3c652c07rf9p4qg7eo6lajvmt4d09r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

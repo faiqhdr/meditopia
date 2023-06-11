@@ -39,6 +39,7 @@ dependencies:
   google_fonts: ^4.0.4
   intl: ^0.18.1
   flutter_svg: ^1.1.6
+  firebase_core: ^2.13.1
 
 flutter_native_splash:
   image: assets/splash_screen_bg.png
