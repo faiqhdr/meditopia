@@ -296,7 +296,7 @@ class CalculateButton extends StatelessWidget {
           // Navigate to BmiResult screen
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => BmiResult()),
+            MaterialPageRoute(builder: (context) => const BmiResult()),
           );
         },
         style: TextButton.styleFrom(padding: EdgeInsets.zero),
