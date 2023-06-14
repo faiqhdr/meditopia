@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:meditopia/pages/home_page.dart';
-import '../../data/data.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../main.dart';
 import '../../size_config.dart';
 import '../../style/style.dart';
 
@@ -95,12 +95,55 @@ class UserInfo extends StatelessWidget {
 class LogoutButton extends StatelessWidget {
   const LogoutButton({Key? key}) : super(key: key);
 
+  Future<void> _signOut(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Confirmation'),
+        content: const Text('Are you sure you want to log out?'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          TextButton(
+            child: const Text('Log out'),
+            onPressed: () async {
+              try {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyApp()),
+                  (Route<dynamic> route) => false,
+                );
+              } catch (e) {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Logout Error'),
+                    content: Text('Logout failed: $e'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: const Text('OK'),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 1, right: 1),
       child: TextButton(
-        onPressed: () {},
+        onPressed: () => _signOut(context),
         style: TextButton.styleFrom(padding: EdgeInsets.zero),
         child: Container(
           width: double.infinity,

@@ -1,26 +1,95 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../components/bottom_bar.dart';
+import '../../main.dart';
 import '../../style/style.dart';
-import 'login.dart';
 
 class RegisterPage extends StatelessWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+
+  RegisterPage({Key? key}) : super(key: key);
 
   void _navigateToSignIn(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const LoginPage()),
+      MaterialPageRoute(builder: (context) => const MyApp()),
     );
+  }
+
+  Future<void> _register(BuildContext context) async {
+    final String emailAddress = emailController.text.trim();
+    final String password = passwordController.text;
+    final String username = usernameController.text.trim();
+
+    try {
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailAddress,
+        password: password,
+      );
+
+      // Store user data in Firestore
+      final User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'email': emailAddress,
+          'username': username,
+        });
+      }
+
+      _navigateToSignIn(context);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Weak Password'),
+              content: const Text('The password provided is too weak.'),
+              actions: [
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } else if (e.code == 'email-already-in-use') {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Existing User'),
+              content: const Text('The account already exists for that email.'),
+              actions: [
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding:
-            const EdgeInsets.only(right: 25, left: 25, top: 153, bottom: 0),
+        padding: const EdgeInsets.only(right: 25, left: 25, top: 93, bottom: 0),
         width: double.infinity,
         decoration: const BoxDecoration(
           color: Color(0xff3671a4),
@@ -52,6 +121,7 @@ class RegisterPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: TextFormField(
+                      controller: emailController,
                       decoration: const InputDecoration(
                         hintText: 'Email',
                         border: InputBorder.none,
@@ -74,9 +144,33 @@ class RegisterPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: TextFormField(
+                      controller: passwordController,
                       obscureText: true,
                       decoration: const InputDecoration(
                         hintText: 'Password',
+                        border: InputBorder.none,
+                      ),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.18,
+                        color: Color(0xff0e1012),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.only(
+                        left: 25, right: 25, top: 1, bottom: 1),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: const Color(0xffffffff),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: TextFormField(
+                      controller: usernameController,
+                      decoration: const InputDecoration(
+                        hintText: 'Username',
                         border: InputBorder.none,
                       ),
                       style: const TextStyle(
@@ -99,7 +193,7 @@ class RegisterPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: TextButton(
-                onPressed: () => _navigateToSignIn(context),
+                onPressed: () => _register(context),
                 style: TextButton.styleFrom(padding: EdgeInsets.zero),
                 child: const Center(
                   child: Text(

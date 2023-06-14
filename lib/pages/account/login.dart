@@ -1,17 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../components/bottom_bar.dart';
 import '../../style/style.dart';
 import 'register.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   void _navigateToSignUp(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const RegisterPage()),
+      MaterialPageRoute(builder: (context) => RegisterPage()),
     );
   }
 
@@ -20,6 +28,55 @@ class LoginPage extends StatelessWidget {
       context,
       MaterialPageRoute(builder: (context) => const BottomBar()),
     );
+  }
+
+  Future<void> _signInWithEmailAndPassword() async {
+    try {
+      final String email = _emailController.text.trim();
+      final String password = _passwordController.text.trim();
+
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      // User login successful, navigate to home screen or perform other actions
+      _navigateToHome(context);
+    } on FirebaseAuthException catch (e) {
+      String errorMessage = '';
+      if (e.code == 'user-not-found') {
+        errorMessage = 'No user found for that email.';
+      } else if (e.code == 'wrong-password') {
+        errorMessage = 'Wrong password provided for that user.';
+      } else {
+        errorMessage = 'Login failed: $e';
+      }
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Login Error'),
+          content: Text(errorMessage),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Login Error'),
+          content: Text('Login failed: $e'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   @override
@@ -59,6 +116,7 @@ class LoginPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: TextFormField(
+                      controller: _emailController,
                       decoration: const InputDecoration(
                         hintText: 'Email',
                         border: InputBorder.none,
@@ -81,6 +139,7 @@ class LoginPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: TextFormField(
+                      controller: _passwordController,
                       obscureText: true,
                       decoration: const InputDecoration(
                         hintText: 'Password',
@@ -106,7 +165,7 @@ class LoginPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: TextButton(
-                onPressed: () => _navigateToHome(context),
+                onPressed: _signInWithEmailAndPassword,
                 style: TextButton.styleFrom(padding: EdgeInsets.zero),
                 child: const Center(
                   child: Text(
