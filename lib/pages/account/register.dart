@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meditopia/main.dart';
@@ -19,6 +20,27 @@ class RegisterPage extends StatelessWidget {
   Future<void> _register(BuildContext context) async {
     final String emailAddress = emailController.text.trim();
     final String password = passwordController.text;
+
+    if (emailAddress.isEmpty || password.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Please enter an email and password.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
 
     try {
       final credential =
@@ -66,7 +88,23 @@ class RegisterPage extends StatelessWidget {
         );
       }
     } catch (e) {
-      print(e);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text('An error occurred. Please try again.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 

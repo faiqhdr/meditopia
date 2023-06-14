@@ -56,9 +56,8 @@ class _LoginPageState extends State<LoginPage> {
           content: Text(errorMessage),
           actions: <Widget>[
             TextButton(
-              child: const Text('OK'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
+                child: const Text('OK'),
+                onPressed: () => Navigator.of(context).pop()),
           ],
         ),
       );
