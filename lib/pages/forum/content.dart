@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../data/data.dart';
 import '../../size_config.dart';
 import '../../style/style.dart';
 
@@ -19,8 +18,8 @@ class ContentPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(
               horizontal: SizeConfig.blockSizeHorizontal! * 17,
             ),
-            child: Column(
-              children: const [
+            child: const Column(
+              children: [
                 // Header Area.
                 Header(),
                 // Content Post Area.
