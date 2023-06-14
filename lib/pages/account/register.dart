@@ -1,15 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:meditopia/main.dart';
 import '../../components/bottom_bar.dart';
-import '../../main.dart';
 import '../../style/style.dart';
+import 'login.dart';
 
 class RegisterPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController usernameController = TextEditingController();
 
   RegisterPage({Key? key}) : super(key: key);
 
@@ -23,7 +21,6 @@ class RegisterPage extends StatelessWidget {
   Future<void> _register(BuildContext context) async {
     final String emailAddress = emailController.text.trim();
     final String password = passwordController.text;
-    final String username = usernameController.text.trim();
 
     try {
       final credential =
@@ -31,17 +28,7 @@ class RegisterPage extends StatelessWidget {
         email: emailAddress,
         password: password,
       );
-
-      // Store user data in Firestore
-      final User? user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-          'email': emailAddress,
-          'username': username,
-        });
-      }
-
-      _navigateToSignIn(context);
+      // Registration successful, do something
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         showDialog(
@@ -50,7 +37,7 @@ class RegisterPage extends StatelessWidget {
             return AlertDialog(
               title: const Text('Weak Password'),
               content: const Text('The password provided is too weak.'),
-              actions: [
+              actions: <Widget>[
                 TextButton(
                   child: const Text('OK'),
                   onPressed: () {
@@ -66,9 +53,9 @@ class RegisterPage extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Existing User'),
+              title: const Text('Account Already Exists'),
               content: const Text('The account already exists for that email.'),
-              actions: [
+              actions: <Widget>[
                 TextButton(
                   child: const Text('OK'),
                   onPressed: () {
@@ -89,7 +76,8 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.only(right: 25, left: 25, top: 93, bottom: 0),
+        padding:
+            const EdgeInsets.only(right: 25, left: 25, top: 153, bottom: 0),
         width: double.infinity,
         decoration: const BoxDecoration(
           color: Color(0xff3671a4),
@@ -148,29 +136,6 @@ class RegisterPage extends StatelessWidget {
                       obscureText: true,
                       decoration: const InputDecoration(
                         hintText: 'Password',
-                        border: InputBorder.none,
-                      ),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.18,
-                        color: Color(0xff0e1012),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    padding: const EdgeInsets.only(
-                        left: 25, right: 25, top: 1, bottom: 1),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: const Color(0xffffffff),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: TextFormField(
-                      controller: usernameController,
-                      decoration: const InputDecoration(
-                        hintText: 'Username',
                         border: InputBorder.none,
                       ),
                       style: const TextStyle(
