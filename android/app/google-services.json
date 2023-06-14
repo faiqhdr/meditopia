@@ -29,6 +29,13 @@
             {
               "client_id": "115028851403-tv3c652c07rf9p4qg7eo6lajvmt4d09r.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "115028851403-d63flvda8qq1rgfbmq6fciq6jiuhltc8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.meditopia"
+              }
             }
           ]
         }
