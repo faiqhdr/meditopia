@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meditopia/main.dart';
-import '../../components/bottom_bar.dart';
 import '../../style/style.dart';
-import 'login.dart';
 
 class RegisterPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
