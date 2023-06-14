@@ -21,13 +21,51 @@ class RegisterPage extends StatelessWidget {
     final String emailAddress = emailController.text.trim();
     final String password = passwordController.text;
 
-    if (emailAddress.isEmpty || password.isEmpty) {
+    if (emailAddress.isEmpty && password.isEmpty) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Error'),
             content: const Text('Please enter an email and password.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    } else if (emailAddress.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Please enter an email.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    } else if (password.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Please enter a password.'),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK'),
