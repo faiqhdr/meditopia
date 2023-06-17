@@ -41,6 +41,7 @@ dependencies:
   flutter_svg: ^1.1.6
   firebase_core: ^2.13.1
   firebase_auth: ^4.6.3
+  cloud_firestore: ^4.8.1
 
 flutter_native_splash:
   image: assets/splash_screen_bg.png
