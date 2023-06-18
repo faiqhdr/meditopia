@@ -42,6 +42,7 @@ class BmiResult extends StatelessWidget {
                 // BMI Status Area.
                 BmiStatus(
                   category: category,
+                  bmi: bmi,
                   gender: gender,
                   height: height,
                   weight: weight,
@@ -173,11 +174,13 @@ class BmiStatus extends StatelessWidget {
   final String category;
   final String gender;
   final double height;
+  final double bmi;
   final double weight;
   final String interpretation;
 
   const BmiStatus({
     required this.category,
+    required this.bmi,
     required this.gender,
     required this.height,
     required this.weight,
@@ -187,6 +190,24 @@ class BmiStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color categoryColor;
+
+    switch (category) {
+      case "Underweight":
+        categoryColor = Colors.blue;
+        break;
+      case "Normal weight":
+        categoryColor = Colors.green;
+        break;
+      case "Overweight":
+        categoryColor = Colors.orange;
+        break;
+      case "Obese":
+        categoryColor = Colors.red;
+        break;
+      default:
+        categoryColor = Colors.black;
+    }
     return Container(
       margin: const EdgeInsets.only(bottom: 73),
       padding: const EdgeInsets.fromLTRB(49, 25, 35, 64),
@@ -220,15 +241,28 @@ class BmiStatus extends StatelessWidget {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(bottom: 25),
+            margin: const EdgeInsets.only(bottom: 15),
             child: Text(
               category,
-              style: const TextStyle(
-                fontSize: 17,
+              style: TextStyle(
+                fontSize: 27,
                 fontWeight: FontWeight.w700,
                 height: 1.35,
                 letterSpacing: 0.17,
-                color: Color(0xff58bc5b),
+                color: categoryColor,
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(bottom: 25),
+            child: Text(
+              bmi.toStringAsFixed(1),
+              style: const TextStyle(
+                fontSize: 43,
+                fontWeight: FontWeight.w700,
+                height: 1.35,
+                letterSpacing: 0.17,
+                color: Color(0xff758494),
               ),
             ),
           ),
@@ -236,7 +270,7 @@ class BmiStatus extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                margin: const EdgeInsets.only(left: 20, right: 60),
+                margin: const EdgeInsets.only(left: 45, right: 35),
                 child: RichText(
                   text: TextSpan(
                     style: const TextStyle(
@@ -293,7 +327,7 @@ class BmiStatus extends StatelessWidget {
             ],
           ),
           Container(
-            margin: const EdgeInsets.only(left: 5, right: 10, top: 20),
+            margin: const EdgeInsets.only(left: 17, right: 17, top: 25),
             constraints: const BoxConstraints(maxWidth: 263),
             child: Text(
               interpretation,
