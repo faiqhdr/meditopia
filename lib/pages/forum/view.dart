@@ -5,6 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import '../../size_config.dart';
 import '../../style/style.dart';
 import 'content.dart';
+import 'create.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ForumPage extends StatelessWidget {
   const ForumPage({Key? key}) : super(key: key);
@@ -24,7 +26,7 @@ class ForumPage extends StatelessWidget {
                 // Header Area.
                 Header(),
                 // Forum List.
-                Post(),
+                PostList(),
                 // Create Button List.
                 CreateButton(),
               ],
@@ -71,189 +73,210 @@ class Header extends StatelessWidget {
   }
 }
 
-class Post extends StatelessWidget {
-  const Post({Key? key}) : super(key: key);
+class PostList extends StatelessWidget {
+  const PostList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const ContentPage()),
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.all(14.55),
-        padding: const EdgeInsets.fromLTRB(18, 23.02, 23.67, 21.45),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: const Color(0xf7f1e6ea),
-          borderRadius: BorderRadius.circular(28),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(bottom: 3.24),
-              width: 14.67,
-              height: 1.28,
-              child: SvgPicture.asset(
-                AppStyle.dotsIcon,
-                width: 14.67,
-                height: 1.28,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(right: 27.33),
-              padding: const EdgeInsets.only(right: 14),
-              width: double.infinity,
-              height: 63.45,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(right: 15),
-                    width: 60,
-                    height: 57.67,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: const Color(0xffffffff),
-                    ),
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('post').snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final posts = snapshot.data!.docs;
+
+          return Column(
+            children: posts.map((post) {
+              final data = post.data() as Map<String, dynamic>;
+              final commentCount = data['commentCount'] ?? 0;
+              final title = data['title'] ?? '';
+              final author = data['author'] ?? '';
+
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ContentPage()),
+                  );
+                },
+                child: Container(
+                  margin: const EdgeInsets.all(14.55),
+                  padding: const EdgeInsets.fromLTRB(18, 23.02, 23.67, 21.45),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: const Color(0xf7f1e6ea),
+                    borderRadius: BorderRadius.circular(28),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 0.45),
-                    width: 161,
-                    child: Stack(
-                      children: const [
-                        Positioned(
-                          left: 0,
-                          top: 0,
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: SizedBox(
-                              width: 139,
-                              height: 19,
-                              child: Text(
-                                '23 Likes | 0 Comment',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.35,
-                                  letterSpacing: 0.14,
-                                  color: Color(0xff0c1115),
-                                ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 3.24),
+                        width: 14.67,
+                        height: 1.28,
+                        child: SvgPicture.asset(
+                          AppStyle.dotsIcon,
+                          width: 14.67,
+                          height: 1.28,
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(right: 27.33),
+                        padding: const EdgeInsets.only(right: 14),
+                        width: double.infinity,
+                        height: 63.45,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(right: 15),
+                              width: 60,
+                              height: 57.67,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: const Color(0xffffffff),
                               ),
                             ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 0,
-                          top: 44,
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: SizedBox(
-                              width: 115,
-                              height: 19,
-                              child: Text(
-                                'by Jimmy Neutron',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.35,
-                                  letterSpacing: 0.14,
-                                  color: Color(0xff0c1115),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 0,
-                          top: 18.55,
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: SizedBox(
+                            Container(
+                              margin: const EdgeInsets.only(top: 0.45),
                               width: 161,
-                              height: 26,
-                              child: Text(
-                                'Banana’s Benefits',
-                                style: TextStyle(
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.35,
-                                  letterSpacing: 0.19,
-                                  color: Color(0xff0e1012),
-                                ),
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    left: 0,
+                                    top: 0,
+                                    child: Align(
+                                      alignment: Alignment.topLeft,
+                                      child: SizedBox(
+                                        width: 139,
+                                        height: 19,
+                                        child: Text(
+                                          '$commentCount Likes | $commentCount Comment',
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.35,
+                                            letterSpacing: 0.14,
+                                            color: Color(0xff0c1115),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 0,
+                                    top: 44,
+                                    child: Align(
+                                      alignment: Alignment.topLeft,
+                                      child: SizedBox(
+                                        width: 115,
+                                        height: 19,
+                                        child: Text(
+                                          'by $author',
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.35,
+                                            letterSpacing: 0.14,
+                                            color: Color(0xff0c1115),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 0,
+                                    top: 18.55,
+                                    child: Align(
+                                      alignment: Alignment.topLeft,
+                                      child: SizedBox(
+                                        width: 161,
+                                        height: 26,
+                                        child: Text(
+                                          title,
+                                          style: const TextStyle(
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.w700,
+                                            height: 1.35,
+                                            letterSpacing: 0.19,
+                                            color: Color(0xff0e1012),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 135,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Implement edit functionality
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.zero,
-                        backgroundColor: const Color(0xff1c6ba4),
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 0.42,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(13),
+                          ],
                         ),
                       ),
-                      child: const Text('Edit'),
-                    ),
-                  ),
-                  const SizedBox(width: 11),
-                  SizedBox(
-                    width: 135,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Implement delete functionality
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.zero,
-                        backgroundColor: const Color(0xff1c6ba4),
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 0.42,
+                      Container(
+                        margin: const EdgeInsets.only(top: 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 135,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  // Implement edit functionality
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  padding: EdgeInsets.zero,
+                                  backgroundColor: const Color(0xff1c6ba4),
+                                  textStyle: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.42,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(13),
+                                  ),
+                                ),
+                                child: const Text('Edit'),
+                              ),
+                            ),
+                            const SizedBox(width: 11),
+                            SizedBox(
+                              width: 135,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  // Implement delete functionality
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  padding: EdgeInsets.zero,
+                                  backgroundColor: const Color(0xff1c6ba4),
+                                  textStyle: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.42,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(13),
+                                  ),
+                                ),
+                                child: const Text('Delete'),
+                              ),
+                            ),
+                          ],
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(13),
-                        ),
-                      ),
-                      child: const Text('Delete'),
-                    ),
+                      )
+                    ],
                   ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+                ),
+              );
+            }).toList(),
+          );
+        }
+
+        return const SizedBox(); // Return an empty container if there's no data yet
+      },
     );
   }
 }
@@ -270,7 +293,10 @@ class CreateButton extends StatelessWidget {
           margin: const EdgeInsets.only(left: 17, right: 17),
           child: TextButton(
             onPressed: () {
-              // Navigate to create post screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CreatePost()),
+              );
             },
             style: TextButton.styleFrom(padding: EdgeInsets.zero),
             child: Container(
