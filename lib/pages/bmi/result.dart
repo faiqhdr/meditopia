@@ -12,6 +12,7 @@ class BmiResult extends StatelessWidget {
   final double height;
   final double weight;
   final String interpretation;
+
   const BmiResult({
     Key? key,
     required this.bmi,
@@ -35,12 +36,13 @@ class BmiResult extends StatelessWidget {
             child: Column(
               children: [
                 // Header Area.
-                Header(),
+                const Header(),
                 // Gender Area.
                 Gender(gender: gender),
                 // BMI Status Area.
                 BmiStatus(
                   category: category,
+                  gender: gender,
                   height: height,
                   weight: weight,
                   interpretation: interpretation,
@@ -97,7 +99,7 @@ class Gender extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String iconPath =
-        gender == "female" ? AppStyle.femaleIcon : AppStyle.maleIcon;
+        gender == "Female" ? AppStyle.femaleIcon : AppStyle.maleIcon;
 
     return Container(
       margin: const EdgeInsets.only(left: 150, right: 135, top: 94, bottom: 24),
@@ -146,8 +148,8 @@ class Gender extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        gender == "female" ? 'Female' : 'Male',
-                        style: TextStyle(
+                        gender == "Female" ? 'Female' : 'Male',
+                        style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w700,
                           height: 1.35,
@@ -169,12 +171,14 @@ class Gender extends StatelessWidget {
 
 class BmiStatus extends StatelessWidget {
   final String category;
+  final String gender;
   final double height;
   final double weight;
   final String interpretation;
 
   const BmiStatus({
     required this.category,
+    required this.gender,
     required this.height,
     required this.weight,
     required this.interpretation,
@@ -204,9 +208,9 @@ class BmiStatus extends StatelessWidget {
         children: [
           Container(
             margin: const EdgeInsets.only(bottom: 8),
-            child: const Text(
-              'BMI for Male',
-              style: TextStyle(
+            child: Text(
+              'BMI for $gender',
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 height: 1.35,
@@ -219,7 +223,7 @@ class BmiStatus extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 25),
             child: Text(
               category,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w700,
                 height: 1.35,
@@ -235,7 +239,7 @@ class BmiStatus extends StatelessWidget {
                 margin: const EdgeInsets.only(left: 20, right: 60),
                 child: RichText(
                   text: TextSpan(
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w400,
                       height: 1.35,
@@ -243,12 +247,12 @@ class BmiStatus extends StatelessWidget {
                       color: Color(0xff000000),
                     ),
                     children: [
-                      TextSpan(
+                      const TextSpan(
                         text: 'Height (cm) ',
                       ),
                       TextSpan(
                         text: height.toStringAsFixed(0),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                           height: 1.35,
@@ -262,7 +266,7 @@ class BmiStatus extends StatelessWidget {
               ),
               RichText(
                 text: TextSpan(
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w400,
                     height: 1.35,
@@ -270,12 +274,12 @@ class BmiStatus extends StatelessWidget {
                     color: Color(0xff000000),
                   ),
                   children: [
-                    TextSpan(
+                    const TextSpan(
                       text: 'Weight (kg) ',
                     ),
                     TextSpan(
                       text: weight.toStringAsFixed(0),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
                         height: 1.35,
@@ -293,7 +297,7 @@ class BmiStatus extends StatelessWidget {
             constraints: const BoxConstraints(maxWidth: 263),
             child: Text(
               interpretation,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
                 height: 1.32,
