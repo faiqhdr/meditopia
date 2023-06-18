@@ -90,13 +90,14 @@ class PostList extends StatelessWidget {
               final commentCount = data['commentCount'] ?? 0;
               final title = data['title'] ?? '';
               final author = data['author'] ?? '';
+              final postId = post.id; // Add this line to get the post ID
 
               return GestureDetector(
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ContentPage()),
+                        builder: (context) => ContentPage(postId: postId)),
                   );
                 },
                 child: Container(

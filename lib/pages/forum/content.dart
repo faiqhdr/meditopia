@@ -1,35 +1,58 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart'; // Import the intl package for date formatting
 import '../../size_config.dart';
 import '../../style/style.dart';
 
 class ContentPage extends StatelessWidget {
-  const ContentPage({Key? key}) : super(key: key);
+  final String postId;
+
+  const ContentPage({Key? key, required this.postId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      body: ListView(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: SizeConfig.blockSizeHorizontal! * 17,
-            ),
-            child: const Column(
-              children: [
-                // Header Area.
-                Header(),
-                // Content Post Area.
-                ContentPost(),
-                // Comment Area.
-                Comment(),
-              ],
-            ),
-          ),
-        ],
+      body: FutureBuilder<DocumentSnapshot>(
+        future: FirebaseFirestore.instance.collection('post').doc(postId).get(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          }
+
+          if (!snapshot.hasData || snapshot.data == null) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          final post = snapshot.data!;
+
+          return ListView(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: SizeConfig.blockSizeHorizontal! * 17,
+                ),
+                child: Column(
+                  children: [
+                    // Header Area.
+                    Header(),
+                    // Content Post Area.
+                    ContentPost(post: post),
+                    // Comment Area.
+                    Comment(post: post),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -71,10 +94,22 @@ class Header extends StatelessWidget {
 }
 
 class ContentPost extends StatelessWidget {
-  const ContentPost({Key? key}) : super(key: key);
+  final DocumentSnapshot post;
+
+  const ContentPost({Key? key, required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final author = post['author'];
+    final timestamp = (post['timestamp'] as Timestamp).toDate();
+    final like = post['like'];
+    final title = post['title'];
+    final content = post['content'];
+
+    // Format the timestamp using DateFormat
+    final formattedTimestamp =
+        DateFormat("MMM dd, yyyy 'at' hh:mm:ss a").format(timestamp);
+
     return Container(
       margin: const EdgeInsets.only(bottom: 11),
       padding: const EdgeInsets.all(18),
@@ -118,16 +153,16 @@ class ContentPost extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Positioned(
+                Positioned(
                   left: 103,
                   top: 33,
                   child: Align(
                     child: SizedBox(
-                      width: 102,
+                      width: 400,
                       height: 49,
                       child: Text(
-                        'by Jimmy Neutron \n24/05/2023\n12 Likes',
-                        style: TextStyle(
+                        '$author\n$formattedTimestamp\n$like',
+                        style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                           height: 1.35,
@@ -138,7 +173,7 @@ class ContentPost extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Positioned(
+                Positioned(
                   left: 102,
                   top: 5,
                   child: Align(
@@ -146,8 +181,8 @@ class ContentPost extends StatelessWidget {
                       width: 170,
                       height: 27,
                       child: Text(
-                        'Banana’s Benefits',
-                        style: TextStyle(
+                        title,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                           height: 1.35,
@@ -186,9 +221,9 @@ class ContentPost extends StatelessWidget {
             constraints: const BoxConstraints(
               maxWidth: 370,
             ),
-            child: const Text(
-              'Bananas are incredibly healthy, convenient, delicious, and one of the most inexpensive fresh fruits you can buy. This makes them an excellent choice for anyone interested in eating healthy.\nWhile they’re native to Southeast Asia, they grow ubiquitously in many warm climates, making them available worldwide. The Cavendish variety, the most common type found in grocery stores, starts out firm and green but turns yellow, soft, and sweet as it ripens.\nBananas contain many essential nutrients and may benefit weight loss, digestion, and heart health.',
-              style: TextStyle(
+            child: Text(
+              content,
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 height: 1.35,
@@ -204,10 +239,15 @@ class ContentPost extends StatelessWidget {
 }
 
 class Comment extends StatelessWidget {
-  const Comment({Key? key}) : super(key: key);
+  final DocumentSnapshot post;
+
+  const Comment({Key? key, required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final commentCount = post['commentCount'];
+    final comment = post['comment'];
+
     return Container(
       padding: const EdgeInsets.all(14),
       width: double.infinity,
@@ -218,55 +258,57 @@ class Comment extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 9),
-            child: const Text(
-              '1 Comment',
-              style: TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-                height: 1.35,
-                letterSpacing: 0.1,
-                color: Color(0xff0c1115),
-              ),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(bottom: 1),
-            child: RichText(
-              text: const TextSpan(
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w700,
-                  height: 1.35,
-                  letterSpacing: 0.1,
-                  color: Color(0xff0c1115),
-                ),
-                children: [
-                  TextSpan(text: 'Timmy '),
-                  TextSpan(
-                    text: 'on 25/05/2024',
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
-                      height: 1.35,
-                      letterSpacing: 0.1,
-                      color: Color(0xff0c1115),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const Text(
-            'Very nice!',
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.w400,
+          Text(
+            'Comments ($commentCount)',
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
               height: 1.35,
-              letterSpacing: 0.1,
-              color: Color(0xff0c1115),
+              letterSpacing: 0.17,
+              color: Color(0xff0e1012),
             ),
+          ),
+          const SizedBox(height: 14),
+          Column(
+            children: List.generate(comment.length, (index) {
+              final commenter = comment[index]['commenter'];
+              final commentText = comment[index]['commentText'];
+              final commentTimestamp = DateTime.fromMillisecondsSinceEpoch(
+                  comment[index]['commentTimestamp']);
+              final formattedCommentTimestamp =
+                  DateFormat("MMM dd, yyyy 'at' hh:mm:ss a")
+                      .format(commentTimestamp);
+
+              return Container(
+                margin: const EdgeInsets.only(bottom: 14),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '$commenter - $formattedCommentTimestamp',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        height: 1.35,
+                        letterSpacing: 0.12,
+                        color: Color(0xff0c1115),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      commentText,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        height: 1.35,
+                        letterSpacing: 0.14,
+                        color: Color(0xff0c1115),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
           ),
         ],
       ),
