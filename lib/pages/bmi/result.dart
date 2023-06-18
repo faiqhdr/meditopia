@@ -2,13 +2,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:meditopia/pages/notification_page.dart';
-import '../../data/data.dart';
 import '../../size_config.dart';
 import '../../style/style.dart';
 
 class BmiResult extends StatelessWidget {
-  const BmiResult({Key? key, required double bmi, required String category, required String interpretation}) : super(key: key);
+  final double bmi;
+  final String category;
+  final String gender;
+  final double height;
+  final double weight;
+  final String interpretation;
+  const BmiResult({
+    Key? key,
+    required this.bmi,
+    required this.category,
+    required this.gender,
+    required this.height,
+    required this.weight,
+    required this.interpretation,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +33,18 @@ class BmiResult extends StatelessWidget {
               horizontal: SizeConfig.blockSizeHorizontal! * 17,
             ),
             child: Column(
-              children: const [
+              children: [
                 // Header Area.
                 Header(),
                 // Gender Area.
-                Gender(),
+                Gender(gender: gender),
                 // BMI Status Area.
-                BmiStatus(),
+                BmiStatus(
+                  category: category,
+                  height: height,
+                  weight: weight,
+                  interpretation: interpretation,
+                ),
               ],
             ),
           ),
@@ -73,10 +90,15 @@ class Header extends StatelessWidget {
 }
 
 class Gender extends StatelessWidget {
-  const Gender({Key? key}) : super(key: key);
+  final String gender;
+
+  const Gender({Key? key, required this.gender}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String iconPath =
+        gender == "female" ? AppStyle.femaleIcon : AppStyle.maleIcon;
+
     return Container(
       margin: const EdgeInsets.only(left: 150, right: 135, top: 94, bottom: 24),
       width: double.infinity,
@@ -116,15 +138,15 @@ class Gender extends StatelessWidget {
                             width: 56,
                             height: 56,
                             child: Image.asset(
-                              AppStyle.maleIcon,
+                              iconPath,
                               width: 56,
                               height: 56,
                             ),
                           ),
                         ),
                       ),
-                      const Text(
-                        'Male',
+                      Text(
+                        gender == "female" ? 'Female' : 'Male',
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w700,
@@ -146,7 +168,18 @@ class Gender extends StatelessWidget {
 }
 
 class BmiStatus extends StatelessWidget {
-  const BmiStatus({Key? key}) : super(key: key);
+  final String category;
+  final double height;
+  final double weight;
+  final String interpretation;
+
+  const BmiStatus({
+    required this.category,
+    required this.height,
+    required this.weight,
+    required this.interpretation,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -184,8 +217,8 @@ class BmiStatus extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.only(bottom: 25),
-            child: const Text(
-              'Ideal Weight',
+            child: Text(
+              category,
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w700,
@@ -201,7 +234,7 @@ class BmiStatus extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.only(left: 20, right: 60),
                 child: RichText(
-                  text: const TextSpan(
+                  text: TextSpan(
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w400,
@@ -214,7 +247,7 @@ class BmiStatus extends StatelessWidget {
                         text: 'Height (cm) ',
                       ),
                       TextSpan(
-                        text: '170',
+                        text: height.toStringAsFixed(0),
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
@@ -228,7 +261,7 @@ class BmiStatus extends StatelessWidget {
                 ),
               ),
               RichText(
-                text: const TextSpan(
+                text: TextSpan(
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w400,
@@ -241,7 +274,7 @@ class BmiStatus extends StatelessWidget {
                       text: 'Weight (kg) ',
                     ),
                     TextSpan(
-                      text: '60',
+                      text: weight.toStringAsFixed(0),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
@@ -258,8 +291,8 @@ class BmiStatus extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(left: 5, right: 10, top: 20),
             constraints: const BoxConstraints(maxWidth: 263),
-            child: const Text(
-              'Ensure calorie intake is in line with daily calorie needs & consume healthy foods',
+            child: Text(
+              interpretation,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w400,

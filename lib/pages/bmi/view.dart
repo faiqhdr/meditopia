@@ -49,7 +49,13 @@ class _BmiCalculatorState extends State<BmiCalculator> {
         context,
         MaterialPageRoute(
             builder: (context) => BmiResult(
-                bmi: bmi, category: category, interpretation: interpretation)),
+                  bmi: bmi,
+                  category: category,
+                  interpretation: interpretation,
+                  gender: selectedGender,
+                  height: height,
+                  weight: weight,
+                )),
       );
     } else {
       showDialog(
