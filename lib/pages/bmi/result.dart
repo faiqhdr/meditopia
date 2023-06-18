@@ -8,7 +8,7 @@ import '../../size_config.dart';
 import '../../style/style.dart';
 
 class BmiResult extends StatelessWidget {
-  const BmiResult({Key? key}) : super(key: key);
+  const BmiResult({Key? key, required double bmi, required String category, required String interpretation}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +199,7 @@ class BmiStatus extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                margin: const EdgeInsets.only(right: 98),
+                margin: const EdgeInsets.only(left: 20, right: 60),
                 child: RichText(
                   text: const TextSpan(
                     style: TextStyle(
@@ -255,121 +255,8 @@ class BmiStatus extends StatelessWidget {
               ),
             ],
           ),
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Container(
-              padding: const EdgeInsets.only(left: 80),
-              width: 280,
-              height: 20,
-              decoration: BoxDecoration(
-                color: const Color(0xfffa4c4c),
-                borderRadius: BorderRadius.circular(76),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 40,
-                    height: 20,
-                    decoration: const BoxDecoration(
-                      color: Color(0xff3dc542),
-                    ),
-                  ),
-                  Container(
-                    width: 59,
-                    height: 20,
-                    decoration: const BoxDecoration(
-                      color: Color(0xffedfb4d),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            // bubbleneR (33:742)
-            left: 73.2283935547,
-            top: 12.2282714844,
-            child: Container(
-              width: 54,
-              height: 54,
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 0,
-                    top: 0,
-                    child: Align(
-                      child: SizedBox(
-                        width: 54,
-                        height: 54,
-                        child: Image.asset(
-                          AppStyle.ellipseShape,
-                          width: 54,
-                          height: 54,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 9.7716064453,
-                    top: 10.7717285156,
-                    child: Align(
-                      child: SizedBox(
-                        width: 35,
-                        height: 33,
-                        child: Image.asset(
-                          AppStyle.ellipseShape,
-                          width: 35,
-                          height: 33,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 22.7716064453,
-                    top: 3.7717285156,
-                    child: Align(
-                      child: SizedBox(
-                        width: 9,
-                        height: 10,
-                        child: Image.asset(
-                          AppStyle.triangleShape,
-                          width: 9,
-                          height: 10,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Positioned(
-                    left: 16.2716064453,
-                    top: 19.7717285156,
-                    child: Center(
-                      child: Align(
-                        child: SizedBox(
-                          width: 22,
-                          height: 13,
-                          child: Text(
-                            '20.8',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w700,
-                              height: 1.3,
-                              letterSpacing: 0.3,
-                              color: Color(0xffffffff),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
           Container(
-            margin: const EdgeInsets.fromLTRB(0, 0, 1, 0),
+            margin: const EdgeInsets.only(left: 5, right: 10, top: 20),
             constraints: const BoxConstraints(maxWidth: 263),
             child: const Text(
               'Ensure calorie intake is in line with daily calorie needs & consume healthy foods',
