@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:meditopia/pages/notification_page.dart';
-import '../../data/data.dart';
 import '../../size_config.dart';
 import '../../style/style.dart';
 import 'step_2.dart';
