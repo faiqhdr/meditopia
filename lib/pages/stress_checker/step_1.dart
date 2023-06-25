@@ -6,8 +6,16 @@ import '../../size_config.dart';
 import '../../style/style.dart';
 import 'step_2.dart';
 
-class StressLevelChecker extends StatelessWidget {
-  const StressLevelChecker({Key? key}) : super(key: key);
+class StressLevelChecker extends StatefulWidget {
+  @override
+  _StressLevelCheckerState createState() => _StressLevelCheckerState();
+}
+
+class _StressLevelCheckerState extends State<StressLevelChecker> {
+  String stressLevel = "";
+  String mainCauses = "";
+  String impactOnDailyLife = "";
+  String copingMechanisms = "";
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +28,39 @@ class StressLevelChecker extends StatelessWidget {
               horizontal: SizeConfig.blockSizeHorizontal! * 17,
             ),
             child: Column(
-              children: const [
+              children: [
                 // Header Area.
                 Header(),
                 // Questionnaire Area.
-                Questionnaire(),
+                Questionnaire(
+                  onStressLevelChanged: (value) {
+                    setState(() {
+                      stressLevel = value;
+                    });
+                  },
+                  onMainCausesChanged: (value) {
+                    setState(() {
+                      mainCauses = value;
+                    });
+                  },
+                  onImpactOnDailyLifeChanged: (value) {
+                    setState(() {
+                      impactOnDailyLife = value;
+                    });
+                  },
+                  onCopingMechanismsChanged: (value) {
+                    setState(() {
+                      copingMechanisms = value;
+                    });
+                  },
+                ),
                 // Next Button.
-                NextButton(),
+                NextButton(
+                  stressLevel: stressLevel,
+                  mainCauses: mainCauses,
+                  impactOnDailyLife: impactOnDailyLife,
+                  copingMechanisms: copingMechanisms,
+                ),
               ],
             ),
           ),
@@ -72,7 +106,18 @@ class Header extends StatelessWidget {
 }
 
 class Questionnaire extends StatelessWidget {
-  const Questionnaire({Key? key}) : super(key: key);
+  final Function(String) onStressLevelChanged;
+  final Function(String) onMainCausesChanged;
+  final Function(String) onImpactOnDailyLifeChanged;
+  final Function(String) onCopingMechanismsChanged;
+
+  const Questionnaire({
+    Key? key,
+    required this.onStressLevelChanged,
+    required this.onMainCausesChanged,
+    required this.onImpactOnDailyLifeChanged,
+    required this.onCopingMechanismsChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,11 +127,13 @@ class Questionnaire extends StatelessWidget {
         Question(
           question: "How often do you feel stressed?",
           choices: ["Rarely", "Sometimes", "Often", "Always"],
+          onChanged: onStressLevelChanged,
         ),
         // Question 2
         Question(
           question: "What are the main causes of your stress?",
           choices: ["Work", "Relationships", "Health", "Finances"],
+          onChanged: onMainCausesChanged,
         ),
         // Question 3
         Question(
@@ -97,6 +144,7 @@ class Questionnaire extends StatelessWidget {
             "Mood swings",
             "Difficulty concentrating"
           ],
+          onChanged: onImpactOnDailyLifeChanged,
         ),
         // Question 4
         Question(
@@ -107,6 +155,7 @@ class Questionnaire extends StatelessWidget {
             "Talking to friends/family",
             "Listening to music"
           ],
+          onChanged: onCopingMechanismsChanged,
         ),
       ],
     );
@@ -116,9 +165,14 @@ class Questionnaire extends StatelessWidget {
 class Question extends StatefulWidget {
   final String question;
   final List<String> choices;
+  final Function(String) onChanged;
 
-  const Question({Key? key, required this.question, required this.choices})
-      : super(key: key);
+  const Question({
+    Key? key,
+    required this.question,
+    required this.choices,
+    required this.onChanged,
+  }) : super(key: key);
 
   @override
   _QuestionState createState() => _QuestionState();
@@ -152,6 +206,7 @@ class _QuestionState extends State<Question> {
                   setState(() {
                     selectedChoice = value;
                   });
+                  widget.onChanged(value!);
                 },
               );
             }).toList(),
@@ -163,7 +218,18 @@ class _QuestionState extends State<Question> {
 }
 
 class NextButton extends StatelessWidget {
-  const NextButton({Key? key}) : super(key: key);
+  final String stressLevel;
+  final String mainCauses;
+  final String impactOnDailyLife;
+  final String copingMechanisms;
+
+  const NextButton({
+    Key? key,
+    required this.stressLevel,
+    required this.mainCauses,
+    required this.impactOnDailyLife,
+    required this.copingMechanisms,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -178,10 +244,10 @@ class NextButton extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => StressLevelCheckerResult(
-                stressLevel: "Often",
-                mainCauses: "Work",
-                impactOnDailyLife: "Difficulty sleeping",
-                copingMechanisms: "Exercise",
+                stressLevel: stressLevel,
+                mainCauses: mainCauses,
+                impactOnDailyLife: impactOnDailyLife,
+                copingMechanisms: copingMechanisms,
               ),
             ),
           );

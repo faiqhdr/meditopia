@@ -25,7 +25,7 @@ List<ServiceItem> servicesList = [
   ServiceItem(
     image: 'assets/icons/noun-medical-test.svg',
     color: const Color(0xffFAF0DB),
-    route: const StressLevelChecker(),
+    route: StressLevelChecker(),
   ),
   ServiceItem(
     image: 'assets/icons/bmi-Icon.svg',
