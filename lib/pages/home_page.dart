@@ -54,19 +54,19 @@ class UserInfo extends StatelessWidget {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
 
         if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Error fetching user data'),
           );
         }
 
         if (!snapshot.hasData || snapshot.data!.data() == null) {
-          return Center(
+          return const Center(
             child: Text('No user data found'),
           );
         }
@@ -79,7 +79,7 @@ class UserInfo extends StatelessWidget {
             top: SizeConfig.blockSizeVertical! * 3,
             bottom: 16.0,
           ),
-          title: Padding(
+          title: const Padding(
             padding: EdgeInsets.only(
               bottom: 7,
               top: 7,
@@ -92,7 +92,7 @@ class UserInfo extends StatelessWidget {
             ),
             child: Text(
               userName,
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
             ),
@@ -100,7 +100,7 @@ class UserInfo extends StatelessWidget {
           trailing: Container(
             height: 48,
             width: 48,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(AppStyle.profile),
                 fit: BoxFit.cover,
@@ -349,9 +349,10 @@ class UpcomingAppointments extends StatelessWidget {
                             ),
                             child: Container(
                               height: SizeConfig.blockSizeVertical! * 50,
-                              width: SizeConfig.blockSizeHorizontal! * 220,
+                              width: SizeConfig.blockSizeHorizontal! * 240,
                               decoration: BoxDecoration(
-                                color: Colors.blue, // Customize the color
+                                color: AppStyle
+                                    .primarySwatch, // Customize the color
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
                               child: Row(
