@@ -100,27 +100,20 @@ class Calendar extends StatelessWidget {
                 title: Text(name),
                 subtitle: Text(specialist),
                 onTap: () {
-                  // Open the calendar to book an appointment.
+                  // Open the calendar to select a schedule.
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Select a date and time'),
+                        title: const Text('Select available date and time:'),
                         content: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              // Display the calendar and time options here.
-                            ],
+                          child: AvailableScheduleList(
+                            schedule: schedule,
+                            doctorName: name,
+                            specialist: specialist,
                           ),
                         ),
                         actions: [
-                          TextButton(
-                            onPressed: () {
-                              // Handle booking logic here.
-                              Navigator.pop(context); // Close the dialog.
-                            },
-                            child: const Text('Book'),
-                          ),
                           TextButton(
                             onPressed: () {
                               Navigator.pop(context); // Close the dialog.
@@ -145,6 +138,51 @@ class Calendar extends StatelessWidget {
   }
 }
 
+class AvailableScheduleList extends StatelessWidget {
+  final List<dynamic> schedule;
+  final String doctorName;
+  final String specialist;
+
+  const AvailableScheduleList({
+    required this.schedule,
+    required this.doctorName,
+    required this.specialist,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: List.generate(schedule.length, (index) {
+        final scheduleItem = schedule[index];
+        final timestamp = scheduleItem as Timestamp; // Cast to Timestamp
+        final dateTime = timestamp.toDate();
+        final date = '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+        final time = '${dateTime.hour}:${dateTime.minute}';
+
+        return ListTile(
+          title: Text(date),
+          subtitle: Text(time),
+          onTap: () {
+            // Navigate to the confirmation widget.
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ConfirmationWidget(
+                  doctorName: doctorName,
+                  specialist: specialist,
+                  date: date,
+                  time: time,
+                ),
+              ),
+            );
+          },
+        );
+      }),
+    );
+  }
+}
+
 class Time extends StatelessWidget {
   const Time({Key? key}) : super(key: key);
 
@@ -162,5 +200,40 @@ class Doctor extends StatelessWidget {
   Widget build(BuildContext context) {
     // Implement your doctor widget here.
     return Container();
+  }
+}
+
+class ConfirmationWidget extends StatelessWidget {
+  final String doctorName;
+  final String specialist;
+  final String date;
+  final String time;
+
+  const ConfirmationWidget({
+    required this.doctorName,
+    required this.specialist,
+    required this.date,
+    required this.time,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Confirmation'),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text('Doctor: $doctorName'),
+          Text('Specialist: $specialist'),
+          Text('Date: $date'),
+          Text('Time: $time'),
+          // Add more details or confirmation logic here.
+        ],
+      ),
+    );
   }
 }
