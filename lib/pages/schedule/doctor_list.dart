@@ -8,6 +8,7 @@ import 'package:meditopia/pages/notification_page.dart';
 import '../../data/data.dart';
 import '../../size_config.dart';
 import '../../style/style.dart';
+import 'confirm.dart';
 
 class DoctorList extends StatelessWidget {
   const DoctorList({Key? key}) : super(key: key);
@@ -168,7 +169,7 @@ class AvailableScheduleList extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ConfirmationWidget(
+                builder: (context) => ConfirmationPage(
                   doctorName: doctorName,
                   specialist: specialist,
                   date: date,
@@ -200,40 +201,5 @@ class Doctor extends StatelessWidget {
   Widget build(BuildContext context) {
     // Implement your doctor widget here.
     return Container();
-  }
-}
-
-class ConfirmationWidget extends StatelessWidget {
-  final String doctorName;
-  final String specialist;
-  final String date;
-  final String time;
-
-  const ConfirmationWidget({
-    required this.doctorName,
-    required this.specialist,
-    required this.date,
-    required this.time,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Confirmation'),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text('Doctor: $doctorName'),
-          Text('Specialist: $specialist'),
-          Text('Date: $date'),
-          Text('Time: $time'),
-          // Add more details or confirmation logic here.
-        ],
-      ),
-    );
   }
 }
