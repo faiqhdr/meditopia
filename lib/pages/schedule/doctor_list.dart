@@ -14,9 +14,6 @@ class DoctorList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Retrieve the currently logged-in user's ID
-    final currentUser = FirebaseAuth.instance.currentUser;
-    final userId = currentUser?.uid ?? '';
     SizeConfig().init(context);
     return Scaffold(
       body: ListView(
@@ -25,8 +22,8 @@ class DoctorList extends StatelessWidget {
             padding: EdgeInsets.symmetric(
               horizontal: SizeConfig.blockSizeHorizontal! * 17,
             ),
-            child: Column(
-              children: const [
+            child: const Column(
+              children: [
                 // Header Area.
                 Header(),
                 // Calendar Area.
