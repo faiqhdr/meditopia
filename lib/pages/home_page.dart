@@ -1,16 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_svg/svg.dart';
 import '../data/data.dart';
 import '../size_config.dart';
 import '../style/style.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +20,7 @@ class HomePage extends StatelessWidget {
             padding: EdgeInsets.symmetric(
               horizontal: SizeConfig.blockSizeHorizontal! * 17,
             ),
-            child: const Column(
+            child: Column(
               children: [
                 // User Info Area.
                 UserInfo(),
@@ -36,7 +34,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
           //Upcoming Appointments.
-          const UpcomingAppointments(),
+          UpcomingAppointments(userId: FirebaseAuth.instance.currentUser!.uid),
         ],
       ),
     );
@@ -56,19 +54,19 @@ class UserInfo extends StatelessWidget {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
+          return Center(
             child: CircularProgressIndicator(),
           );
         }
 
         if (snapshot.hasError) {
-          return const Center(
+          return Center(
             child: Text('Error fetching user data'),
           );
         }
 
         if (!snapshot.hasData || snapshot.data!.data() == null) {
-          return const Center(
+          return Center(
             child: Text('No user data found'),
           );
         }
@@ -81,7 +79,7 @@ class UserInfo extends StatelessWidget {
             top: SizeConfig.blockSizeVertical! * 3,
             bottom: 16.0,
           ),
-          title: const Padding(
+          title: Padding(
             padding: EdgeInsets.only(
               bottom: 7,
               top: 7,
@@ -94,7 +92,7 @@ class UserInfo extends StatelessWidget {
             ),
             child: Text(
               userName,
-              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
             ),
@@ -102,7 +100,7 @@ class UserInfo extends StatelessWidget {
           trailing: Container(
             height: 48,
             width: 48,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(AppStyle.profile),
                 fit: BoxFit.cover,
@@ -136,7 +134,8 @@ class UserInfo extends StatelessWidget {
 }
 
 class SearchMedical extends StatelessWidget {
-  const SearchMedical({super.key});
+  const SearchMedical({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -181,7 +180,7 @@ class Services extends StatelessWidget {
           ),
           child: Text(
             "Services",
-            style: Theme.of(context).textTheme.headline6!.copyWith(
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1,
                 ),
@@ -223,7 +222,7 @@ class Services extends StatelessWidget {
 }
 
 class Advertisement extends StatelessWidget {
-  const Advertisement({super.key});
+  const Advertisement({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -296,7 +295,12 @@ class Advertisement extends StatelessWidget {
 }
 
 class UpcomingAppointments extends StatelessWidget {
-  const UpcomingAppointments({super.key});
+  final String userId;
+
+  const UpcomingAppointments({
+    Key? key,
+    required this.userId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -306,7 +310,8 @@ class UpcomingAppointments extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: SizeConfig.blockSizeHorizontal! * 17),
+            horizontal: SizeConfig.blockSizeHorizontal! * 17,
+          ),
           child: Text(
             "Upcoming Appointments",
             style: Theme.of(context)
@@ -316,101 +321,119 @@ class UpcomingAppointments extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 2.0,
-                bottom: 2.0,
-                right: 20.0,
-                left: 9.0,
-              ),
-              child: Row(
-                children: upcomingAppointmentsList
-                    .map(
-                      (e) => CupertinoButton(
-                        onPressed: () {},
-                        padding: const EdgeInsets.only(
-                          left: 14,
-                        ),
-                        child: Container(
-                          height: SizeConfig.blockSizeVertical! * 50,
-                          width: SizeConfig.blockSizeHorizontal! * 220,
-                          decoration: BoxDecoration(
-                            color: e.color,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.all(20),
-                                width: 71.46,
-                                height: 93.03,
-                                decoration: BoxDecoration(
-                                  color: Colors.white12,
-                                  borderRadius: BorderRadius.circular(17.0),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    e.date,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge!
-                                        .copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                  ),
-                                ),
+        StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(userId)
+              .collection('bookings')
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final bookings = snapshot.data!.docs;
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 2.0,
+                    bottom: 2.0,
+                    right: 20.0,
+                    left: 9.0,
+                  ),
+                  child: Row(
+                    children: bookings
+                        .map(
+                          (booking) => CupertinoButton(
+                            onPressed: () {},
+                            padding: const EdgeInsets.only(
+                              left: 14,
+                            ),
+                            child: Container(
+                              height: SizeConfig.blockSizeVertical! * 50,
+                              width: SizeConfig.blockSizeHorizontal! * 220,
+                              decoration: BoxDecoration(
+                                color: Colors.blue, // Customize the color
+                                borderRadius: BorderRadius.circular(20.0),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              child: Row(
                                 children: [
-                                  Text(
-                                    e.time,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium!
-                                        .copyWith(
-                                          letterSpacing: 1,
-                                          color: Colors.white,
-                                        ),
+                                  Container(
+                                    margin: const EdgeInsets.all(20),
+                                    width: 51.46,
+                                    height: 93.03,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white12,
+                                      borderRadius: BorderRadius.circular(17.0),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        booking['date'],
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge!
+                                            .copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                    ),
                                   ),
-                                  Text(
-                                    e.title,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge!
-                                        .copyWith(
-                                          letterSpacing: 1,
-                                          fontWeight: FontWeight.bold,
-                                          height: 1.5,
-                                          color: Colors.white,
-                                        ),
-                                  ),
-                                  Text(
-                                    e.subTitle,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium!
-                                        .copyWith(
-                                          letterSpacing: 1,
-                                          fontWeight: FontWeight.bold,
-                                          height: 1.5,
-                                          color: Colors.white60,
-                                        ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        booking['time'],
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium!
+                                            .copyWith(
+                                              letterSpacing: 1,
+                                              color: Colors.white,
+                                            ),
+                                      ),
+                                      Text(
+                                        booking['doctorName'],
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge!
+                                            .copyWith(
+                                              letterSpacing: 1,
+                                              fontWeight: FontWeight.bold,
+                                              height: 1.5,
+                                              color: Colors.white,
+                                            ),
+                                      ),
+                                      Text(
+                                        booking['specialist'],
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium!
+                                            .copyWith(
+                                              letterSpacing: 1,
+                                              fontWeight: FontWeight.bold,
+                                              height: 1.5,
+                                              color: Colors.white60,
+                                            ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
-            ))
+                        )
+                        .toList(),
+                  ),
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return Text('Failed to fetch upcoming appointments');
+            } else {
+              return CircularProgressIndicator();
+            }
+          },
+        ),
       ],
     );
   }
