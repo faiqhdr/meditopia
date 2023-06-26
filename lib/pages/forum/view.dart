@@ -221,7 +221,7 @@ class PostList extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(
-                              width: 135,
+                              width: 105,
                               child: ElevatedButton(
                                 onPressed: () {
                                   // Implement edit functionality
@@ -244,7 +244,7 @@ class PostList extends StatelessWidget {
                             ),
                             const SizedBox(width: 11),
                             SizedBox(
-                              width: 135,
+                              width: 105,
                               child: ElevatedButton(
                                 onPressed: () {
                                   // Implement delete functionality

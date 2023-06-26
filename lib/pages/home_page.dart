@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
             padding: EdgeInsets.symmetric(
               horizontal: SizeConfig.blockSizeHorizontal! * 17,
             ),
-            child: Column(
+            child: const Column(
               children: [
                 // User Info Area.
                 UserInfo(),

@@ -44,7 +44,7 @@ dependencies:
   cloud_firestore: ^4.8.1
 
 flutter_native_splash:
-  image: assets/splash_screen_bg.png
+  image: assets/images/splash_screen_bg.png
 
 dev_dependencies:
   flutter_test:

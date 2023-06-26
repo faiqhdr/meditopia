@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// cimport 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:meditopia/pages/account/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
