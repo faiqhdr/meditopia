@@ -195,9 +195,10 @@ class AvailableScheduleList extends StatelessWidget {
     String time,
   ) {
     FirebaseFirestore.instance
-        .collection('bookings')
+        .collection('users')
         .doc(userId)
-        .set({
+        .collection('bookings')
+        .add({
           'doctorName': doctorName,
           'specialist': specialist,
           'date': date,
