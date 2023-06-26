@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../components/bottom_bar.dart';
 import '../../size_config.dart';
 import '../../style/style.dart';
@@ -25,6 +26,11 @@ class ConfirmationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+
+    // Retrieve the currently logged-in user's ID
+    final currentUser = FirebaseAuth.instance.currentUser;
+    final userId = currentUser?.uid ?? '';
+
     return Scaffold(
       body: ListView(
         children: [
@@ -49,6 +55,10 @@ class ConfirmationPage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       showSuccessAlert(context);
+
+                      // Save the booking data to Firestore under the user's ID
+                      saveBookingData(
+                          userId, doctorName, specialist, date, time);
                     },
                     child: const Text('Proceed'),
                   ),
@@ -91,6 +101,26 @@ class ConfirmationPage extends StatelessWidget {
         );
       },
     );
+  }
+
+  void saveBookingData(
+    String userId,
+    String doctorName,
+    String specialist,
+    String date,
+    String time,
+  ) {
+    FirebaseFirestore.instance
+        .collection('bookings')
+        .doc(userId)
+        .set({
+          'doctorName': doctorName,
+          'specialist': specialist,
+          'date': date,
+          'time': time,
+        })
+        .then((value) => print('Booking data saved'))
+        .catchError((error) => print('Failed to save booking data: $error'));
   }
 }
 

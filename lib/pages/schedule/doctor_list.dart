@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meditopia/pages/notification_page.dart';
-import '../../data/data.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../size_config.dart';
 import '../../style/style.dart';
 import 'confirm.dart';
@@ -15,6 +14,9 @@ class DoctorList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Retrieve the currently logged-in user's ID
+    final currentUser = FirebaseAuth.instance.currentUser;
+    final userId = currentUser?.uid ?? '';
     SizeConfig().init(context);
     return Scaffold(
       body: ListView(
@@ -82,6 +84,9 @@ class Calendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    final userId = currentUser?.uid ?? '';
+
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('doctor').snapshots(),
       builder: (context, snapshot) {
@@ -101,7 +106,6 @@ class Calendar extends StatelessWidget {
                 title: Text(name),
                 subtitle: Text(specialist),
                 onTap: () {
-                  // Open the calendar to select a schedule.
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -112,6 +116,7 @@ class Calendar extends StatelessWidget {
                             schedule: schedule,
                             doctorName: name,
                             specialist: specialist,
+                            userId: userId,
                           ),
                         ),
                         actions: [
@@ -143,11 +148,13 @@ class AvailableScheduleList extends StatelessWidget {
   final List<dynamic> schedule;
   final String doctorName;
   final String specialist;
+  final String userId;
 
   const AvailableScheduleList({
     required this.schedule,
     required this.doctorName,
     required this.specialist,
+    required this.userId,
     Key? key,
   }) : super(key: key);
 
@@ -165,7 +172,7 @@ class AvailableScheduleList extends StatelessWidget {
           title: Text(date),
           subtitle: Text(time),
           onTap: () {
-            // Navigate to the confirmation widget.
+            saveBookingData(userId, doctorName, specialist, date, time);
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -181,6 +188,26 @@ class AvailableScheduleList extends StatelessWidget {
         );
       }),
     );
+  }
+
+  void saveBookingData(
+    String userId,
+    String doctorName,
+    String specialist,
+    String date,
+    String time,
+  ) {
+    FirebaseFirestore.instance
+        .collection('bookings')
+        .doc(userId)
+        .set({
+          'doctorName': doctorName,
+          'specialist': specialist,
+          'date': date,
+          'time': time,
+        })
+        .then((value) => print('Booking data saved'))
+        .catchError((error) => print('Failed to save booking data: $error'));
   }
 }
 
