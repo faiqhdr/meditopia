@@ -193,7 +193,7 @@ class Gender extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            margin: const EdgeInsets.only(right: 63),
+            margin: const EdgeInsets.only(right: 53),
             child: TextButton(
               onPressed: () {
                 selectGender('Male');

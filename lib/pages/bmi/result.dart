@@ -103,7 +103,7 @@ class Gender extends StatelessWidget {
         gender == "Female" ? AppStyle.femaleIcon : AppStyle.maleIcon;
 
     return Container(
-      margin: const EdgeInsets.only(left: 150, right: 135, top: 94, bottom: 24),
+      margin: const EdgeInsets.only(left: 150, right: 105, top: 94, bottom: 24),
       width: double.infinity,
       height: 111,
       child: Row(

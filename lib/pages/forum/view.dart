@@ -8,8 +8,33 @@ import 'content.dart';
 import 'create.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'edit.dart';
+
 class ForumPage extends StatelessWidget {
   const ForumPage({Key? key}) : super(key: key);
+
+  void _deletePost(BuildContext context, String postId) {
+    FirebaseFirestore.instance.collection('post').doc(postId).delete();
+
+    // Show confirmation alert
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Post Deleted'),
+          content: const Text('The post has been deleted.'),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the alert dialog
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +46,14 @@ class ForumPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(
               horizontal: SizeConfig.blockSizeHorizontal! * 17,
             ),
-            child: const Column(
+            child: Column(
               children: [
                 // Header Area.
                 Header(),
                 // Forum List.
-                PostList(),
+                PostList(
+                  onDeletePost: (postId) => _deletePost(context, postId),
+                ),
                 // Create Button List.
                 CreateButton(),
               ],
@@ -74,7 +101,8 @@ class Header extends StatelessWidget {
 }
 
 class PostList extends StatelessWidget {
-  const PostList({Key? key}) : super(key: key);
+  const PostList({Key? key, required this.onDeletePost}) : super(key: key);
+  final Function(String) onDeletePost;
 
   @override
   Widget build(BuildContext context) {
@@ -224,7 +252,13 @@ class PostList extends StatelessWidget {
                               width: 105,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  // Implement edit functionality
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          EditPost(postId: postId),
+                                    ),
+                                  );
                                 },
                                 style: ElevatedButton.styleFrom(
                                   foregroundColor: Colors.white,
@@ -247,7 +281,7 @@ class PostList extends StatelessWidget {
                               width: 105,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  // Implement delete functionality
+                                  onDeletePost(postId);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   foregroundColor: Colors.white,
